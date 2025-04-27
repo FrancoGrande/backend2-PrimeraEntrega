@@ -5,34 +5,18 @@ import passport from "passport";
 
 const router = Router();
 
-router.post("/register", passport.authenticate('register', {failureRedirect: '/failregister'}), async (req, res) => {
-    try {
-        const { first_name, last_name, email, age, password } = req.body;
-        
-        if (!first_name || !last_name || !email || !age || !password) {
-            return res.status(400).send("Todos los campos son obligatorios");
-        }
-        let newUser = new User({ 
-            first_name,
-            last_name,
-            email,
-            age,
-            password: createHash(password)
-        });
-
-        await newUser.save();
-        res.redirect("/login");
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-        console.log (error);
-    }
+router.post("/register", passport.authenticate('register', {
+    failureRedirect: '/api/sessions/failregister'
+}), (req, res) => {
+    res.redirect("/login");
 });
+
 
 router.get('/failregister', (req,res) => {
     res.send({error: "Failed"})
 })
 
-router.post("/login", passport. authenticate('login', {failureRedirect: '/faillogin'}), async (req, res) => {
+router.post("/login", passport. authenticate('login', {failureRedirect: '/api/sessions/faillogin'}), async (req, res) => {
     try { 
         if(!req.user) {
             return res.status(400).send({status: false, message: "Credenciales inválidas"});

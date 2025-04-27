@@ -1,8 +1,8 @@
 <h1>Perfil de usuario</h1>
 
-<p> Bienvenido, {{users.first_name}} {{users.last_name}}</p>
-<p>Email: {{users.email}}</p>
-<p>Edad: {{users.age}}</p>
+<p> Bienvenido, {{user.first_name}} {{user.last_name}}</p>
+<p>Email: {{user.email}}</p>
+<p>Edad: {{user.age}}</p>
 
 <form action="/api/sessions/logout" method="POST">
     <input type="submit" value="Cerrar sesión">
