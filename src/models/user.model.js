@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { createHash } from "../utils.js";
 
 const userCollection = "users"; 
 
@@ -9,6 +10,12 @@ const userSchema = new mongoose.Schema({
     age: {type: Number, required: true},
     password: {type:String, required: true},
 });
+
+userSchema.pre('save', function(next){
+    if(!this.isModified('password')) return next();
+    this.password = createHash(this.password);
+    next();
+})
 
 const userModel = mongoose.model(userCollection, userSchema);
 

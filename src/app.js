@@ -9,14 +9,20 @@ import sessionRouter from "./routes/session.router.js";
 import {config} from "./config/config.js";
 import initializePassport  from "./config/passport.config.js";
 import passport from "passport";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-const mongoURL = config.MONGO_URL;
 
+const mongoURL = config.MONGO_URL;
+const PORT = config.PORT;
+const FIRMA_COOKIES = config.FIRMA_COOKIES;
+
+
+app.use(cookieParser(FIRMA_COOKIES));
 mongoose.connect(config.MONGO_URL)
     .then( () => console.log("Conexión a base de datos exitosa"))
     .catch( (error) => console.error('Error de conexión: ', error));
@@ -43,6 +49,6 @@ app.set("view engine", "handlebars");
 app.use("/", viewRouter);
 app.use("/api/sessions", sessionRouter);
 
-app.listen(config.PORT, () => {
-    console.log(`Servidor escuchando en el puerto ${config.PORT}`);
+app.listen(PORT, () => {
+    console.log(`Servidor escuchando en el puerto ${PORT}`);
 });

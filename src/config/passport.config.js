@@ -1,6 +1,6 @@
 import passport from 'passport';
 import local from 'passport-local';
-import { createHash, isValidPassword } from '../utils.js';
+import { isValidPassword } from '../utils.js';
 import User from '../models/user.model.js';  // Solo importamos una vez
 
 const LocalStrategy = local.Strategy;
@@ -24,7 +24,7 @@ const initializePassport = () => {
                     last_name,
                     email: username,
                     age,
-                    password: createHash(password)
+                    password: password
                 };
 
                 const userCreated = await User.create(newUser);
